@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "456980739037",
+    "project_id": "college-friend-92c81",
+    "storage_bucket": "college-friend-92c81.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:456980739037:android:0d6a114e417e658a1b7c34",
+        "android_client_info": {
+          "package_name": "com.college.dost.college_dost"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBZu-j48QQpwzjHKwASz9uaJFvIY17emUA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

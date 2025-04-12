@@ -1,0 +1,2 @@
+D:/college project mintra/college_dost/college_dost/android/app/.cxx/RelWithDebInfo/416kb1p4/arm64-v8a/CMakeFiles/edit_cache.dir
+D:/college project mintra/college_dost/college_dost/android/app/.cxx/RelWithDebInfo/416kb1p4/arm64-v8a/CMakeFiles/rebuild_cache.dir
