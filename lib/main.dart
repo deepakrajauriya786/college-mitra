@@ -23,7 +23,7 @@ void main() {
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
-// new gfgvfghhggddxdgxdfreatgtdhfgh
+// new gfgvfghhggddxdgxdfreatgtdhfghfgg
   @override
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
