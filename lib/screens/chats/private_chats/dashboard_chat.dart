@@ -8,6 +8,7 @@ import 'chat_screen.dart';
 
 class DashboardChat extends StatelessWidget {
   DashboardChat({super.key});
+
   List<Map<String, dynamic>> contacts = [
     {
       'id': '42554543534',
