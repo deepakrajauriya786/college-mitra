@@ -15,6 +15,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_expandable_fab/flutter_expandable_fab.dart';
 import 'package:http/http.dart' as http;
 import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 import '../../const/comming_soon.dart';
 import '../../const/config.dart';
@@ -568,7 +569,8 @@ class _OtpSigninState extends State<HomeScreen> {
                               cardDataMentorship[index]['desc'],
                               cardDataMentorship[index]['name'],
                               cardDataMentorship[index]['role']);
-                        }))),
+                        }))
+            ),
             GestureDetector(
               onTap: () {
                 changeScreen(context, PremiumOnboardScreen());
@@ -764,6 +766,18 @@ class _OtpSigninState extends State<HomeScreen> {
           shape: const CircleBorder(),
         ),
         children: [
+          GestureDetector(onTap: (){
+            final phoneNumber = email.toString();
+            if (phoneNumber != null && phoneNumber.isNotEmpty) {
+              launchUrlString("mailto:$phoneNumber");
+            } else {
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(
+                    content:
+                    Text("Phone number not available.")),
+              );
+            }
+          },child:
           Row(
             children: [
               Container(
@@ -789,8 +803,11 @@ class _OtpSigninState extends State<HomeScreen> {
                 ),
               )
             ],
-          ),
-          Row(
+          ),),
+
+          GestureDetector(onTap: (){
+            launchUrlString("$youtube");
+          },child:Row(
             children: [
               Container(
                 padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
@@ -814,8 +831,19 @@ class _OtpSigninState extends State<HomeScreen> {
                     color: Colors.blue, borderRadius: BorderRadius.circular(10)),
               )
             ],
-          ),
-          Row(
+          )),
+          GestureDetector(onTap: (){
+            final phoneNumber = call.toString();
+            if (phoneNumber != null && phoneNumber.isNotEmpty) {
+              launchUrlString("tel:$phoneNumber");
+            } else {
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(
+                    content:
+                    Text("Phone number not available.")),
+              );
+            }
+          },child:Row(
             children: [
               Container(
                 padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
@@ -840,8 +868,21 @@ class _OtpSigninState extends State<HomeScreen> {
                     borderRadius: BorderRadius.circular(10)),
               )
             ],
-          ),
-          Row(
+          )),
+          GestureDetector(onTap: (){
+            final phoneNumber = whatsapp.toString();
+            if (phoneNumber != null && phoneNumber.isNotEmpty) {
+              // Ensure number format is correct for WA link (e.g., no +)
+              launchUrlString(
+                  "https://wa.me/91$phoneNumber"); // Assuming +91 country code
+            } else {
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(
+                    content:
+                    Text("WhatsApp number not available.")),
+              );
+            }
+          },child:Row(
             children: [
               Container(
                 padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
@@ -866,7 +907,7 @@ class _OtpSigninState extends State<HomeScreen> {
                     borderRadius: BorderRadius.circular(10)),
               )
             ],
-          ),
+          )),
         ],
       ),
     );

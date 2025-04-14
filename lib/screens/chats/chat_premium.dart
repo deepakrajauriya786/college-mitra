@@ -2,6 +2,7 @@ import 'package:action_slider/action_slider.dart';
 import 'package:college_dost/const/color.dart';
 import 'package:flutter/material.dart';
 
+import '../dashboard/chat_screen.dart';
 import '../premium/screens/premium_details_screen.dart';
 
 class ChatPremium extends StatelessWidget {
@@ -64,7 +65,8 @@ class ChatPremium extends StatelessWidget {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => PremiumPage(),
+                        builder: (context) => ChatScreen(),
+                        // builder: (context) => PremiumPage(),
                       ));
                   controller.reset();
                 },

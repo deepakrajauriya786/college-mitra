@@ -3,13 +3,18 @@ import 'package:college_dost/provider/direct_admission_provider.dart';
 import 'package:college_dost/provider/management_quota_provider.dart';
 import 'package:college_dost/provider/onboard_provider.dart';
 import 'package:college_dost/screens/splash.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 import 'const/color.dart';
 
-void main() {
+Future<void> main() async {
+
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+
   runApp(MultiProvider(
     providers: [
       ChangeNotifierProvider(create: (_) => BottomNavigationProvider()),

@@ -1,8 +1,66 @@
+import 'dart:convert';
+
 import 'package:college_dost/const/color.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:http/http.dart' as http;
+import '../../../const/config.dart';
+import '../../dashboard/bottom_bar.dart';
 
-class ReportBugScreen extends StatelessWidget {
+class ReportBugScreen extends StatefulWidget {
   const ReportBugScreen({super.key});
+
+  @override
+  State<ReportBugScreen> createState() => _EditProfilePageState();
+}
+
+class _EditProfilePageState extends State<ReportBugScreen> {
+
+  TextEditingController _emailcontroller = TextEditingController();
+
+
+  Future<String> updateAccount(Map<String, dynamic> data) async {
+    try {
+      final userId = await UID; // Replace with actual user ID logic
+      var response = await http.post(
+        Uri.parse(BASEURL + "bug_fix.php?u_id=$userId"),
+        body: jsonEncode(data),
+        headers: {
+          "Content-Type": "application/json; charset=UTF-8",
+        },
+      );
+      if (response.statusCode == 200) {
+        var jsondata = jsonDecode(response.body.toString());
+
+        if (jsondata[0]['message'] == "1") {
+          Fluttertoast.showToast(msg: "Submit Successfully");
+
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+              builder: (context) => BottomBar(), // Replace with your home screen
+            ),
+          );
+
+          return "success";
+        } else {
+          Fluttertoast.showToast(msg: "Submit Successfully");
+
+          return "Failed";
+        }
+        return "Failed";
+      } else {
+        // server error
+        print("Server Error !");
+        return Future.error("Server Error !");
+      }
+    } catch (SocketException) {
+      // fetching error
+      print("Error Fetching Data !");
+      return Future.error("Error Fetching Data !");
+    }
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +91,9 @@ class ReportBugScreen extends StatelessWidget {
             const SizedBox(
               height: 20,
             ),
+
             TextField(
+              controller: _emailcontroller,
               maxLines: 5,
               cursorColor: themeColor,
               style:
@@ -57,6 +117,16 @@ class ReportBugScreen extends StatelessWidget {
             ),
             const SizedBox(height: 20),
             GestureDetector(
+              onTap: () async {
+                final userId = await UID;
+                Map<String, dynamic> data = {
+
+                  'u_id': userId.toString(),
+                  'message': _emailcontroller.text,
+
+                };
+                String response = await updateAccount(data);
+              },
               child: Container(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10),
