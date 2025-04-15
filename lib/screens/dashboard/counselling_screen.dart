@@ -248,13 +248,15 @@ class _OtpSigninState extends State<JosaaCounsellingPage> {
                         _buildToolItem(
                             tool_detail[1]['name'], tool_detail[1]['image'],
                             () {
-                          changeScreen(context, TimelineScreen());
+                          changeScreen(context, TimelineScreen(
+                            sc_id: widget.sc_id??'0',cc_id: widget.cc_id??'0',title: tool_detail[1]['name'],
+                          ));
                         }),
-                        _buildToolItem(
-                            tool_detail[2]['name'], tool_detail[2]['image'],
-                            () {
-                          changeScreen(context, RankPredictorPage());
-                        }),
+                        // _buildToolItem(
+                        //     tool_detail[2]['name'], tool_detail[2]['image'],
+                        //     () {
+                        //   changeScreen(context, RankPredictorPage());
+                        // }),
                         _buildToolItem(
                             tool_detail[3]['name'], tool_detail[3]['image'],
                             () {
@@ -265,11 +267,11 @@ class _OtpSigninState extends State<JosaaCounsellingPage> {
                         //     () {
                         //   changeScreen(context, CollegePredict());
                         // }),
-                        _buildToolItem(
-                            tool_detail[5]['name'], tool_detail[5]['image'],
-                            () {
-                          changeScreen(context, CompareCollege());
-                        }),
+                        // _buildToolItem(
+                        //     tool_detail[5]['name'], tool_detail[5]['image'],
+                        //     () {
+                        //   changeScreen(context, CompareCollege());
+                        // }),
                         // _buildToolItem(
                         //     tool_detail[6]['name'], tool_detail[6]['image'],
                         //     () {

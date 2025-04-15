@@ -29,10 +29,10 @@ class ManagementQuotaSlide extends StatelessWidget {
             ),
             const SizedBox(height: 10),
             Image.asset(
-              "assets/images/global.png",
-              width: screenwidth(context) - 40,
+              "assets/images/quata.jpg",
+              width: screenwidth(context),
               height: 330,
-              fit: BoxFit.cover,
+              fit: BoxFit.fill,
             ),
             const SizedBox(height: 20),
             const Text(

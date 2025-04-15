@@ -15,9 +15,7 @@ import '../screens/dashboard/payment_gateway.dart';
 class ManagementQuotaProvider extends ChangeNotifier {
   late TextEditingController email;
   late TextEditingController preferred_college;
-
   late TextEditingController course_name;
-
   late TextEditingController name;
   late TextEditingController mobile;
   late TextEditingController dob;

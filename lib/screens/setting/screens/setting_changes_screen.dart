@@ -10,8 +10,8 @@ class SettingChangesScreen extends StatefulWidget {
 
 class _SettingsPageState extends State<SettingChangesScreen> {
   bool pushNotifications = true;
-  bool emailNotifications = true;
-  bool locationServices = true;
+  // bool emailNotifications = true;
+  // bool locationServices = true;
 
   @override
   Widget build(BuildContext context) {
@@ -54,44 +54,44 @@ class _SettingsPageState extends State<SettingChangesScreen> {
               ),
               activeColor: themeColor,
             ),
-            const SizedBox(height: 10),
-            SwitchListTile(
-              value: emailNotifications,
-              onChanged: (value) {
-                setState(() {
-                  emailNotifications = value;
-                });
-              },
-              title: const Text(
-                "Email Notifications",
-                style:
-                    TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-              ),
-              subtitle: const Text(
-                "Receive email notifications from our marketing team about new features.",
-                style: TextStyle(color: Colors.white70),
-              ),
-              activeColor: themeColor,
-            ),
-            const SizedBox(height: 10),
-            SwitchListTile(
-              value: locationServices,
-              onChanged: (value) {
-                setState(() {
-                  locationServices = value;
-                });
-              },
-              title: const Text(
-                "Location Services",
-                style:
-                    TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-              ),
-              subtitle: const Text(
-                "Allow us to track your location, this helps keep track of spending and keeps you safe.",
-                style: TextStyle(color: Colors.white70),
-              ),
-              activeColor: themeColor,
-            ),
+            // const SizedBox(height: 10),
+            // SwitchListTile(
+            //   value: emailNotifications,
+            //   onChanged: (value) {
+            //     setState(() {
+            //       emailNotifications = value;
+            //     });
+            //   },
+            //   title: const Text(
+            //     "Email Notifications",
+            //     style:
+            //         TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+            //   ),
+            //   subtitle: const Text(
+            //     "Receive email notifications from our marketing team about new features.",
+            //     style: TextStyle(color: Colors.white70),
+            //   ),
+            //   activeColor: themeColor,
+            // ),
+            // const SizedBox(height: 10),
+            // SwitchListTile(
+            //   value: locationServices,
+            //   onChanged: (value) {
+            //     setState(() {
+            //       locationServices = value;
+            //     });
+            //   },
+            //   title: const Text(
+            //     "Location Services",
+            //     style:
+            //         TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+            //   ),
+            //   subtitle: const Text(
+            //     "Allow us to track your location, this helps keep track of spending and keeps you safe.",
+            //     style: TextStyle(color: Colors.white70),
+            //   ),
+            //   activeColor: themeColor,
+            // ),
             const Spacer(),
             GestureDetector(
               onTap: () {

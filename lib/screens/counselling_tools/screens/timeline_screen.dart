@@ -1,10 +1,68 @@
+import 'dart:convert';
+
 import 'package:college_dost/const/app_sizes.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 import 'package:timeline_tile/timeline_tile.dart';
 
+import '../../../const/config.dart';
 import '../../../const/dummy_data.dart';
 
-class TimelineScreen extends StatelessWidget {
+class TimelineScreen extends StatefulWidget {
+
+  final String sc_id;
+  final String cc_id;
+  final String title;
+
+  const TimelineScreen(
+      {super.key, required this.sc_id, required this.cc_id, required this.title});
+
+  @override
+  _PremiumPageState createState() => _PremiumPageState();
+}
+
+class _PremiumPageState extends State<TimelineScreen> {
+
+  List<dynamic> cardDataBlog = [];
+
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+    fetchData();
+  }
+
+  Future<void> fetchData() async {
+    try {
+      await fetchDataBlog();
+    } catch (e) {
+      print('Error fetching data: $e');
+    }
+
+  }
+
+  Future<String> fetchDataBlog() async {
+    try {
+      final response = await http.get(Uri.parse(BASEURL +
+          "timeline_fetch.php?cc_id=${widget.cc_id}&sc_id=${widget.sc_id}"));
+      if (response.statusCode == 200) {
+        print(
+            "timeline_fetch timeline_fetch.php?cc_id=${widget.cc_id}&sc_id=${widget.sc_id}");
+        setState(() {
+          cardDataBlog = json.decode(response.body);
+        });
+        return "success";
+      } else {
+        throw Exception("Failed to fetch car list");
+      }
+    } catch (e) {
+      print('Error fetching car list: $e');
+      throw Exception("Error fetching car data");
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -53,13 +111,13 @@ class TimelineScreen extends StatelessWidget {
           const SizedBox(
             height: 20,
           ),
-          Expanded(
+          cardDataBlog.isEmpty?CircularProgressIndicator(): Expanded(
             child: ListView.builder(
-              itemCount: timelineData.length,
+              itemCount: cardDataBlog.length,
               itemBuilder: (context, index) {
-                final item = timelineData[index];
+                final item = cardDataBlog[index];
                 final bool isFirst = index == 0;
-                final bool isLast = index == timelineData.length - 1;
+                final bool isLast = index == cardDataBlog.length - 1;
 
                 return TimelineTile(
                   alignment: TimelineAlign.manual,
@@ -82,7 +140,7 @@ class TimelineScreen extends StatelessWidget {
                   startChild: Padding(
                     padding: const EdgeInsets.all(4.0),
                     child: Text(
-                      item['date'],
+                     "${ item['date']} - ${ item['time']}",
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 10,
