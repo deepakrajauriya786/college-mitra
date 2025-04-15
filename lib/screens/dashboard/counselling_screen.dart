@@ -16,6 +16,7 @@ import '../counselling_tools/screens/know_about_screen.dart';
 import '../counselling_tools/screens/timeline_screen.dart';
 import '../onboard/widgets/blogs_cards.dart';
 import '../onboard/widgets/crauser_slider.dart';
+import 'direct_admission_slide.dart';
 
 class JosaaCounsellingPage extends StatefulWidget {
   final String sc_id;
@@ -257,23 +258,23 @@ class _OtpSigninState extends State<JosaaCounsellingPage> {
                         _buildToolItem(
                             tool_detail[3]['name'], tool_detail[3]['image'],
                             () {
-                          changeScreen(context, CollegeListForm());
+                          changeScreen(context, DirectAdmissionSlide());
                         }),
-                        _buildToolItem(
-                            tool_detail[4]['name'], tool_detail[4]['image'],
-                            () {
-                          changeScreen(context, CollegePredict());
-                        }),
+                        // _buildToolItem(
+                        //     tool_detail[4]['name'], tool_detail[4]['image'],
+                        //     () {
+                        //   changeScreen(context, CollegePredict());
+                        // }),
                         _buildToolItem(
                             tool_detail[5]['name'], tool_detail[5]['image'],
                             () {
                           changeScreen(context, CompareCollege());
                         }),
-                        _buildToolItem(
-                            tool_detail[6]['name'], tool_detail[6]['image'],
-                            () {
-                          changeScreen(context, BranchPredict());
-                        }),
+                        // _buildToolItem(
+                        //     tool_detail[6]['name'], tool_detail[6]['image'],
+                        //     () {
+                        //   changeScreen(context, BranchPredict());
+                        // }),
                         _buildToolItem(
                             tool_detail[7]['name'], tool_detail[7]['image'],
                             () {
@@ -319,6 +320,7 @@ class _OtpSigninState extends State<JosaaCounsellingPage> {
                               cardDataBlog[index]['title'],
                               cardDataBlog[index]['desc'],
                               cardDataBlog[index]['image'],
+                              cardDataBlog[index]['bd_id'],
                               background: Colors.grey.shade900,
                               title: Colors.white,
                             );

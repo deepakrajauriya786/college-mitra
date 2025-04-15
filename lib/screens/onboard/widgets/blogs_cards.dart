@@ -5,18 +5,19 @@ import '../../dashboard/blog_detail_screen.dart';
 
 class BlogsCards extends StatelessWidget {
 
-
   final Color background;
   final Color title;
   final Color desc;
   final String name;
   final String detail;
   final String image;
+  final String bd_id;
 
   const BlogsCards(
       this.name,
       this.detail,
       this.image,
+      this.bd_id,
       {super.key,
         this.background = Colors.white,
         this.title = Colors.black,
@@ -29,7 +30,7 @@ class BlogsCards extends StatelessWidget {
         Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => BlogDetailScreen(),
+              builder: (context) => BlogDetailScreen(bd_id),
             ));
       },
       child: Card(

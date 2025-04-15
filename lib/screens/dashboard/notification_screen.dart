@@ -1,9 +1,66 @@
+import 'dart:convert';
+
 import 'package:college_dost/screens/dashboard/widgets/notification_tile.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../const/color.dart';
+import '../../const/config.dart';
 
-class NotificationScreen extends StatelessWidget {
+class NotificationScreen extends StatefulWidget {
+  const NotificationScreen({
+    super.key,
+  });
+
+  @override
+  State<NotificationScreen> createState() => _OtpSigninState();
+}
+
+class _OtpSigninState extends State<NotificationScreen> {
+
+  String telegram="";
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    userProfileFetch();
+  }
+  Future<List<dynamic>> userProfileFetch() async {
+    try {
+      final userId = await UID; // Replace with actual user ID logic
+      final response =
+      await http.get(Uri.parse("${BASEURL}contact_detail.php?u_id=$userId"));
+      if (response.statusCode == 200) {
+        final data = jsonDecode(response.body);
+        print(data);
+        setState(() {
+
+          telegram=data[0]['telegram'];
+
+        });
+        return jsonDecode(response.body);
+
+      } else {
+        throw Exception("Server Error!");
+      }
+    } catch (e) {
+      print("Error fetching data: $e");
+      return [];
+    }
+  }
+
+  Future<void> openTelegramChannel() async {
+    final url = Uri.parse(telegram);
+
+    if (!await launchUrl(
+      url,
+      mode: LaunchMode.externalApplication,
+    )) {
+      throw 'Could not launch Telegram channel';
+    }
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -70,6 +127,7 @@ class NotificationScreen extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
+          openTelegramChannel();
           // Handle Telegram button press
         },
         backgroundColor: themeColor,

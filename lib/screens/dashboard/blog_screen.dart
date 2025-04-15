@@ -100,7 +100,7 @@ class _OtpSigninState extends State<BlogScreen> {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => BlogDetailScreen(),
+                              builder: (context) => BlogDetailScreen(cardData[0]['bd_id']),
                             ));
                       },
                       child: Container(
@@ -183,6 +183,7 @@ class _OtpSigninState extends State<BlogScreen> {
                         return PopularBlogCard(
                           img: cardData[index]['image']!,
                           title: cardData[index]['title']!,
+                          bd_id: cardData[index]['bd_id']!,
                         );
 
                       },

@@ -21,6 +21,7 @@ import '../../const/comming_soon.dart';
 import '../../const/config.dart';
 import '../../const/database.dart';
 import '../../const/dummy_data.dart';
+import '../counselling_tools/screens/college_list_screen.dart';
 import '../onboard/widgets/crauser_slider.dart';
 import '../onboard/widgets/review_student_card.dart';
 import 'accomodation_slide.dart';
@@ -517,6 +518,7 @@ class _OtpSigninState extends State<HomeScreen> {
                             cardDataBlog[index]['title'],
                             cardDataBlog[index]['desc'],
                             cardDataBlog[index]['image'],
+                            cardDataBlog[index]['bd_id'],
                           );
                         }))),
             const SizedBox(height: 10),
@@ -919,11 +921,11 @@ class _OtpSigninState extends State<HomeScreen> {
         if (index == 2) {
           changeScreen(context, RankPredictorPage());
         } else if (index == 3) {
-          changeScreen(context, CollegePredict());
-        } else if (index == 4) {
           changeScreen(context, CompareCollege());
-        } else if (index == 5) {
-          changeScreen(context, CommingSoon());
+        } else if (index == 4) {
+          changeScreen(context, CollegeListScreen());
+        // } else if (index == 5) {
+        //   changeScreen(context, CommingSoon());
         } else if (index == 1) {
           changeScreen(context, AccomodationSlide());
         } else if (index == 0) {
@@ -1013,7 +1015,7 @@ class _OtpSigninState extends State<HomeScreen> {
                       ),
                     ),
                     const Text(
-                      "Select types",
+                      "Select Counseling",
                       style: TextStyle(
                         fontSize: 14,
                         color: Colors.white,

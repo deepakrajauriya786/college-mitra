@@ -9,6 +9,7 @@ import 'package:image_picker/image_picker.dart';
 
 import '../../../const/config.dart';
 import '../../../const/database.dart';
+import '../../dashboard/bottom_bar.dart';
 
 class EditProfilePage extends StatefulWidget {
   const EditProfilePage({super.key});
@@ -83,13 +84,13 @@ class _EditProfilePageState extends State<EditProfilePage> {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(content: Text("Profile Image Uploaded")),
           );
-          // Navigator.push(
-          //   context,
-          //   MaterialPageRoute(
-          //     builder: (context) =>
-          //     const BottomNavigatorScreen(), // Replace with your home screen
-          //   ),
-          // );
+          // Navigator.pop(context);
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => BottomBar(), // Replace with your home screen
+            ),
+          );
         } else {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(content: Text("Failed !")),
@@ -132,7 +133,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
 
         if (jsondata[0]['message'] == "1") {
           // Fluttertoast.showToast(msg: "Update Successfully");
-
+          Navigator.of(context).pop();
           // Navigator.pushReplacement(
           //   context,
           //   MaterialPageRoute(

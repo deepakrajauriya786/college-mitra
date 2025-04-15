@@ -64,7 +64,7 @@ class _OtpSigninState extends State<PaymentGateway> {
       backgroundColor: Colors.black,
       appBar: AppBar(
         title: Text(
-          'Waitting for Payment',
+          'Waiting for Payment',
           style: TextStyle(color: Colors.white),
         ),
         backgroundColor: Colors.black,

@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
+import '../private_chats/chat_screen.dart';
 import '../widgets/video_player_screen.dart';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -43,11 +44,8 @@ class _ChatScreenState extends State<PublicChatScreen> {
   final ScrollController _scrollController = ScrollController();
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
-
   String name = "";
   String userId = '';
-
-
 
   @override
   void initState() {
@@ -89,7 +87,8 @@ class _ChatScreenState extends State<PublicChatScreen> {
     return Scaffold(
       backgroundColor: const Color(0xff131b28),
       appBar: AppBar(
-        iconTheme: const IconThemeData(color: Colors.white), // Set back button/icon color
+        iconTheme: const IconThemeData(color: Colors.white),
+        // Set back button/icon color
 
         backgroundColor: const Color(0xff252d3a),
         title: const Row(
@@ -129,10 +128,12 @@ class _ChatScreenState extends State<PublicChatScreen> {
                     final isMe = sender == userId;
                     _scrollToBottom();
                     return Container(
-                      margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 5),
+                      margin: const EdgeInsets.symmetric(
+                          horizontal: 8, vertical: 5),
                       child: Row(
-                        mainAxisAlignment:
-                        isMe ? MainAxisAlignment.end : MainAxisAlignment.start,
+                        mainAxisAlignment: isMe
+                            ? MainAxisAlignment.end
+                            : MainAxisAlignment.start,
                         children: [
                           if (!isMe)
                             const CircleAvatar(
@@ -156,11 +157,27 @@ class _ChatScreenState extends State<PublicChatScreen> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   if (!isMe)
-                                    Text(
-                                      name,
-                                      style: const TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.blue,
+                                    GestureDetector(
+                                      onTap: () {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                PrivateChatScreen(
+                                              contactName: name,
+                                              contactAvatar:
+                                                  'Chat',
+                                              receiverId: sender,
+                                            ),
+                                          ),
+                                        );
+                                      },
+                                      child: Text(
+                                        name,
+                                        style: const TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.blue,
+                                        ),
                                       ),
                                     ),
                                   if (!isMe) const SizedBox(height: 5),

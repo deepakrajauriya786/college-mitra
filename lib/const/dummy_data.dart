@@ -2,7 +2,7 @@ final List<Map<String, String>> cardData = [
   {"title": "Paid", "subtitle": "Direct Admission"},
   {"title": "Paid", "subtitle": "Find Accomodation"},
   {"title": "Free", "subtitle": "Rank Predictor"},
-  {"title": "Free", "subtitle": "College Predictor"},
+  // {"title": "Free", "subtitle": "College Predictor"},
   {"title": "Free", "subtitle": "Compare College"},
   {"title": "Free", "subtitle": "College List"},
 ];

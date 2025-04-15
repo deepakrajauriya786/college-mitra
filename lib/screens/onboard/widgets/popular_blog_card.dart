@@ -4,9 +4,9 @@ import 'package:college_dost/screens/dashboard/blog_detail_screen.dart';
 import 'package:flutter/material.dart';
 
 class PopularBlogCard extends StatelessWidget {
-  const PopularBlogCard({super.key, required this.title, required this.img});
+  const PopularBlogCard({super.key, required this.title, required this.img, required this.bd_id});
 
-  final String title, img;
+  final String title, img,bd_id;
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +15,7 @@ class PopularBlogCard extends StatelessWidget {
         Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => BlogDetailScreen(),
+              builder: (context) => BlogDetailScreen(bd_id),
             ));
       },
       child: Container(
