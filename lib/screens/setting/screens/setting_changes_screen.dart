@@ -93,28 +93,28 @@ class _SettingsPageState extends State<SettingChangesScreen> {
             //   activeColor: themeColor,
             // ),
             const Spacer(),
-            GestureDetector(
-              onTap: () {
-                // Handle Save Changes action
-              },
-              child: Container(
-                width: double.infinity,
-                height: 50,
-                decoration: BoxDecoration(
-                  color: themeColor,
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: const Center(
-                  child: Text(
-                    "Save Changes",
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold),
-                  ),
-                ),
-              ),
-            ),
+            // GestureDetector(
+            //   onTap: () {
+            //     // Handle Save Changes action
+            //   },
+            //   child: Container(
+            //     width: double.infinity,
+            //     height: 50,
+            //     decoration: BoxDecoration(
+            //       color: themeColor,
+            //       borderRadius: BorderRadius.circular(10),
+            //     ),
+            //     child: const Center(
+            //       child: Text(
+            //         "Save Changes",
+            //         style: TextStyle(
+            //             color: Colors.white,
+            //             fontSize: 16,
+            //             fontWeight: FontWeight.bold),
+            //       ),
+            //     ),
+            //   ),
+            // ),
             const SizedBox(height: 20),
           ],
         ),

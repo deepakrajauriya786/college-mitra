@@ -98,7 +98,7 @@ class _ChatScreenState extends State<PublicChatScreen> {
               child: Icon(Icons.group, color: Colors.white),
             ),
             SizedBox(width: 15),
-            Text('Group Chat',
+            Text('Public Chat',
                 style: TextStyle(fontSize: 14, color: Colors.white)),
           ],
         ),
