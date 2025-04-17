@@ -17,6 +17,7 @@ import '../counselling_tools/screens/timeline_screen.dart';
 import '../onboard/widgets/blogs_cards.dart';
 import '../onboard/widgets/crauser_slider.dart';
 import 'direct_admission_slide.dart';
+import 'education_loan_slide.dart';
 
 class JosaaCounsellingPage extends StatefulWidget {
   final String sc_id;
@@ -252,11 +253,11 @@ class _OtpSigninState extends State<JosaaCounsellingPage> {
                             sc_id: widget.sc_id??'0',cc_id: widget.cc_id??'0',title: tool_detail[1]['name'],
                           ));
                         }),
-                        // _buildToolItem(
-                        //     tool_detail[2]['name'], tool_detail[2]['image'],
-                        //     () {
-                        //   changeScreen(context, RankPredictorPage());
-                        // }),
+                        _buildToolItem(
+                            tool_detail[2]['name'], tool_detail[2]['image'],
+                            () {
+                          changeScreen(context, EducationLoanSlide());
+                        }),
                         _buildToolItem(
                             tool_detail[3]['name'], tool_detail[3]['image'],
                             () {

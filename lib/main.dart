@@ -1,5 +1,6 @@
 import 'package:college_dost/provider/bottom_navigation_provider.dart';
 import 'package:college_dost/provider/direct_admission_provider.dart';
+import 'package:college_dost/provider/education_loan_provider.dart';
 import 'package:college_dost/provider/management_quota_provider.dart';
 import 'package:college_dost/provider/onboard_provider.dart';
 import 'package:college_dost/screens/splash.dart';
@@ -20,7 +21,8 @@ Future<void> main() async {
       ChangeNotifierProvider(create: (_) => BottomNavigationProvider()),
       ChangeNotifierProvider(create: (_) => OnBoardProvider()),
       ChangeNotifierProvider(create: (_) => ManagementQuotaProvider()),
-      ChangeNotifierProvider(create: (_) => DirectAdmissionProvider())
+      ChangeNotifierProvider(create: (_) => DirectAdmissionProvider()),
+      ChangeNotifierProvider(create: (_) => EducationLoanProvider())
     ],
     child: const MyApp(),
   ));
