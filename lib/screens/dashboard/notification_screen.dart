@@ -27,6 +27,24 @@ class _OtpSigninState extends State<NotificationScreen> {
     super.initState();
     userProfileFetch();
   }
+
+  Future<List<dynamic>> fetchProduct() async {
+    try {
+
+      final response = await http.get(Uri.parse("${BASEURL}notification.php"));
+      if (response.statusCode == 200) {
+
+        print(jsonDecode(response.body));
+
+        return jsonDecode(response.body);
+      } else {
+        throw Exception("Server Error!");
+      }
+    } catch (e) {
+      debugPrint("Error fetching data: $e");
+      return [];
+    }
+  }
   Future<List<dynamic>> userProfileFetch() async {
     try {
       final userId = await UID; // Replace with actual user ID logic
@@ -91,14 +109,99 @@ class _OtpSigninState extends State<NotificationScreen> {
             const SizedBox(
               height: 10,
             ),
-            Expanded(
-              child: ListView.builder(
-                  padding: EdgeInsets.zero,
-                  shrinkWrap: true,
-                  itemCount: 10,
-                  itemBuilder: (context, index) {
-                    return NotificationTile();
-                  }),
+            FutureBuilder<List<dynamic>>(
+              future: fetchProduct(),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const Center(child: CircularProgressIndicator());
+                } else if (snapshot.hasError) {
+                  return Center(child: Text( "No Data Available"));
+                } else if (snapshot.hasData && snapshot.data!.isNotEmpty) {
+                  return
+                    Expanded(
+                      child: ListView.builder(
+                          padding: EdgeInsets.zero,
+                          shrinkWrap: true,
+                          itemCount: snapshot.data?.length,
+                          itemBuilder: (context, index) {
+                            final data = snapshot.data?[index];
+                            return Container(
+                              margin: const EdgeInsets.symmetric(vertical: 8),
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(12),
+                                  border: Border.all(color: Colors.grey.shade800)),
+                              padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Container(
+                                    padding: const EdgeInsets.all(12),
+                                    decoration: BoxDecoration(
+                                        color: Colors.grey.shade800,
+                                        borderRadius: BorderRadius.circular(10)),
+                                    child: const Icon(
+                                      Icons.message,
+                                      color: Colors.blue,
+                                      size: 32,
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    width: 10,
+                                  ),
+                                  Expanded(
+                                    child: Column(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Text(data['title'],
+                                            style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                            maxLines: 1,
+                                            overflow: TextOverflow.ellipsis),
+                                        Text(
+                                          data['desc'],
+                                          style: TextStyle(
+                                              color: Colors.white70, fontWeight: FontWeight.w500),
+                                          maxLines: 1,
+                                          overflow: TextOverflow.ellipsis,
+                                        ),
+                                        SizedBox(
+                                          height: 5,
+                                        ),
+                                        Row(
+                                          children: [
+                                            Icon(
+                                              Icons.timelapse_sharp,
+                                              color: Colors.grey,
+                                              size: 17,
+                                            ),
+                                            SizedBox(
+                                              width: 5,
+                                            ),
+                                            Text(
+                                              "${data['date']} , ${data['time']}",
+                                              style: TextStyle(
+                                                  color: Colors.grey, fontWeight: FontWeight.bold),
+                                              maxLines: 1,
+                                              overflow: TextOverflow.ellipsis,
+                                            ),
+                                          ],
+                                        )
+                                      ],
+                                    ),
+                                  )
+                                ],
+                              ),
+                            );
+                          }),
+                    );
+                } else {
+                  return const Center(child: Text('No Data Available'));
+                }
+              },
             ),
             // Icon(
             //   Icons.notifications_off,
