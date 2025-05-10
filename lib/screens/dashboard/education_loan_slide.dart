@@ -21,7 +21,7 @@ class EducationLoanSlide extends StatelessWidget {
           children: [
             const SizedBox(height: 80),
             const Text(
-              "Smart Education Loan",
+              "Education Loan",
               textAlign: TextAlign.center,
               style: TextStyle(
                 color: themeColor,
@@ -39,7 +39,6 @@ class EducationLoanSlide extends StatelessWidget {
             const SizedBox(height: 20),
             const Text(
               "Fast, Secure, and Flexible Loans for Indian and Abroad Education. Apply in Minutes. Get approved Faster.",
-              maxLines: 2,
               textAlign: TextAlign.center,
               style: TextStyle(
                 color: Colors.white,

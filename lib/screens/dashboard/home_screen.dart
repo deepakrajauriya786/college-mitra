@@ -26,6 +26,7 @@ import '../onboard/widgets/crauser_slider.dart';
 import '../onboard/widgets/review_student_card.dart';
 import 'accomodation_slide.dart';
 import 'counselling_screen.dart';
+import 'education_loan_slide.dart';
 import 'notification_screen.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -918,16 +919,18 @@ class _OtpSigninState extends State<HomeScreen> {
   Widget Cards(index, context) {
     return GestureDetector(
       onTap: () {
-        if (index == 2) {
-          changeScreen(context, RankPredictorPage());
-        } else if (index == 3) {
-          changeScreen(context, CompareCollege());
-        } else if (index == 4) {
+        if (index == 3) {
           changeScreen(context, CollegeListScreen());
+        } else if (index == 4) {
+          changeScreen(context, CompareCollege());
+        } else if (index == 5) {
+          changeScreen(context, RankPredictorPage());
         // } else if (index == 5) {
         //   changeScreen(context, CommingSoon());
-        } else if (index == 1) {
+        } else if (index == 2) {
           changeScreen(context, AccomodationSlide());
+        } else if (index == 1) {
+          changeScreen(context, EducationLoanSlide());
         } else if (index == 0) {
           changeScreen(context, DirectAdmissionSlide());
         }
@@ -944,6 +947,8 @@ class _OtpSigninState extends State<HomeScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
+                overflow: TextOverflow.ellipsis,
+                maxLines: 2,
                 cardData[index]['subtitle']!,
                 style: const TextStyle(
                     fontSize: 21,

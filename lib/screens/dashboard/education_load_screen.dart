@@ -27,7 +27,7 @@ class SmartEducationLoan extends StatelessWidget {
                     height: 30,
                   ),
                   const Text(
-                    "Smart Education Loan",
+                    "Education Loan",
                     style: TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.bold,

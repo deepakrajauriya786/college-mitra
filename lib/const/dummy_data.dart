@@ -1,9 +1,10 @@
 final List<Map<String, String>> cardData = [
   {"title": "Paid", "subtitle": "Direct Admission"},
-  {"title": "Paid", "subtitle": "Find Accomodation"},
-  {"title": "Free", "subtitle": "Rank Predictor"},
+  {"title": "Paid", "subtitle": "Education Loan"},
+  {"title": "Paid", "subtitle": "Find Accommodation"},
+  // {"title": "Free", "subtitle": "Rank Predictor"},
   // {"title": "Free", "subtitle": "College Predictor"},
-  {"title": "Free", "subtitle": "Compare College"},
+  // {"title": "Free", "subtitle": "Compare College"},
   {"title": "Free", "subtitle": "College List"},
 ];
 List<String> lists = [
