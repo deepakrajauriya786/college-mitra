@@ -89,7 +89,7 @@ class _MessageScreensState extends State<DashboardChat> {
       appBar: AppBar(
         automaticallyImplyLeading: false,
         backgroundColor: const Color(0xff252d3a),
-        title: const Text('Chats', style: TextStyle(color: Colors.white)),
+        title: const Text('Private Chats', style: TextStyle(color: Colors.white)),
       ),
       body: chats.isEmpty
           ? const Center(child: CircularProgressIndicator())
