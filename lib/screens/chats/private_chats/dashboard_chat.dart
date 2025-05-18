@@ -1,71 +1,87 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart'; // Import if not already present
+import 'package:provider/provider.dart';
 
-import '../../../const/config.dart';
+import '../../../const/app_sizes.dart';
+import '../../../const/database.dart';
+
 import 'chat_screen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-class DashboardChat extends StatelessWidget {
-  DashboardChat({super.key});
+class DashboardChat extends StatefulWidget {
+  const DashboardChat({Key? key}) : super(key: key);
 
-  List<Map<String, dynamic>> contacts = [
-    {
-      'id': '42554543534',
-      'name': 'Aditi Gupta',
-      'message': 'Par bhaiya CAT is not that easy to crack...',
-      'avatar': 'A',
-      'unreadCount': 3,
-      'lastMessageTime': '12:30 PM',
-    },
-    {
-      'id': '4664646464',
-      'name': 'ChickMagnet',
-      'message': '"baby IIMs" 😅',
-      'avatar': 'C',
-      'unreadCount': 0,
-      'lastMessageTime': '11:15 AM',
-    },
-    {
-      'id': '46477744',
-      'name': 'Ananya Pandey',
-      'message': 'Hey does anyone have ideas for free mocks?',
-      'avatar': 'An',
-      'unreadCount': 5,
-      'lastMessageTime': '10:45 AM',
-    },
-    {
-      'id': '6865765656',
-      'name': 'Arunav Ghosh',
-      'message': 'Just use GPT!',
-      'avatar': 'Ar',
-      'unreadCount': 1,
-      'lastMessageTime': '09:50 AM',
-    },
-    {
-      'id': '87998779433534',
-      'name': 'Anonymous',
-      'message': 'Is there live class today in hustlers batch?',
-      'avatar': 'An',
-      'unreadCount': 0,
-      'lastMessageTime': 'Yesterday',
-    },
-  ];
+  @override
+  State<DashboardChat> createState() => _MessageScreensState();
+}
 
-  Future<List<dynamic>> fetchProduct() async {
+class _MessageScreensState extends State<DashboardChat> {
+  List<ChatData> chats = []; // Use the ChatData model
+  String currentUserId = '';
+
+  @override
+  void initState() {
+    super.initState();
+    initializeFirebase();
+    getCurrentUserId();
+  }
+
+  Future<void> initializeFirebase() async {
     try {
-      final userId = await UID;
-      final response = await http.get(Uri.parse("${BASEURL}user_list_fetch.php?u_id=$userId"));
-      if (response.statusCode == 200) {
-        return jsonDecode(response.body);
-      } else {
-        throw Exception("Server Error!");
-      }
+      await Firebase.initializeApp();
+      print("Firebase initialized successfully");
+      // You can perform other Firebase related tasks here
     } catch (e) {
-      debugPrint("Error fetching data: $e");
-      return [];
+      print("Failed to initialize Firebase: $e");
+      // Handle the error appropriately, such as displaying an error message to the user
     }
   }
+
+  Future<void> getCurrentUserId() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      currentUserId =
+          prefs.getString('mobile') ?? ''; // Use null-aware operator
+      print('Current User ID: $currentUserId'); // Debugging
+      fetchChatData();
+    });
+  }
+
+  Future<void> fetchChatData() async {
+    try {
+      final chatsCollection = FirebaseFirestore.instance.collection('chats');
+
+      // Query for chats ordered by lastMessageTime descending
+      final querySnapshot = await chatsCollection
+          .orderBy('lastMessageTime', descending: true) // Order by lastMessageTime
+          .get();
+
+      List<ChatData> fetchedChats = [];
+      for (var doc in querySnapshot.docs) {
+        final data = doc.data();
+        print('data 456 $data');
+        // Check if the 'users' map contains the current user ID
+        bool userInChat = false;
+        if (data['users'] != null && data['users'] is Map) { // Check for null and type
+          Map<String, dynamic> usersMap = data['users'] as Map<String, dynamic>;
+          userInChat = usersMap.containsKey(currentUserId); //Check if current user is present in User map
+        }
+
+        if (userInChat) {
+          fetchedChats.add(await ChatData.fromFirestore(doc,currentUserId));
+        }
+      }
+
+      setState(() {
+        chats = fetchedChats;
+      });
+    } catch (e) {
+      print("Error fetching chat data: $e");
+      // Handle the error appropriately
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -73,100 +89,196 @@ class DashboardChat extends StatelessWidget {
       appBar: AppBar(
         automaticallyImplyLeading: false,
         backgroundColor: const Color(0xff252d3a),
-        title: const Text('Private Chats', style: TextStyle(color: Colors.white)),
+        title: const Text('Chats', style: TextStyle(color: Colors.white)),
       ),
-      body: FutureBuilder<List<dynamic>>(
-        future: fetchProduct(),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator());
-          } else if (snapshot.hasError) {
-            return Center(child: Text("We will be soon serving this area"));
-          } else if (snapshot.hasData && snapshot.data!.isNotEmpty) {
-            return
-              ListView.builder(
-                itemCount: snapshot.data!.length,
-                itemBuilder: (context, index) {
-                  final contact = snapshot.data![index];
-                  final isUnread = false;
+      body: chats.isEmpty
+          ? const Center(child: CircularProgressIndicator())
+          : ListView.builder(
+        itemCount: chats.length,
+        itemBuilder: (context, index) {
+          final chat = chats[index];
+          final isUnread = chat.unreadCount >
+              0; // Use the unread count from the ChatData
 
-                  return ListTile(
-                    leading: Stack(
-                      children: [
-                        CircleAvatar(
-                          backgroundColor: Colors.blue,
-                          child: Text(
-                            contact['avatar']??'Chat',
-                            style: const TextStyle(color: Colors.white),
-                          ),
-                        ),
-                        if (isUnread)
-                          Positioned(
-                            right: 0,
-                            top: 0,
-                            child: Container(
-                              padding: const EdgeInsets.all(4),
-                              decoration: BoxDecoration(
-                                color: Colors.red,
-                                shape: BoxShape.circle,
-                              ),
-                              child: Text(
-                                contact['unreadCount'].toString(),
-                                style: const TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ),
-                          ),
-                      ],
-                    ),
-                    title: Text(
-                      contact['name']!,
-                      style: const TextStyle(color: Colors.white),
-                    ),
-                    subtitle: Text(
-                      contact['addreass']!,
-                      style: TextStyle(
-                        color: isUnread ? Colors.white : Colors.grey,
-                        fontWeight: isUnread ? FontWeight.bold : FontWeight.normal,
+          return ListTile(
+            leading: Stack(
+              children: [
+                CircleAvatar(
+                  backgroundColor: Colors.blue,
+                  child: Text(
+                    chat.otherUserName.substring(0, 1).toUpperCase(),
+                    //chat.otherUserName[0].toUpperCase(), //chat.otherUserName.isNotEmpty ? chat.otherUserName[0].toUpperCase() : 'U',  // Assuming there's a 'name' field
+                    style: const TextStyle(color: Colors.white),
+                  ),
+                ),
+                if (chat.unreadCount > 0)
+                  Positioned(
+                    right: 0,
+                    top: 0,
+                    child: Container(
+                      padding: const EdgeInsets.all(4),
+                      decoration: BoxDecoration(
+                        color: Colors.red,
+                        shape: BoxShape.circle,
                       ),
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                    trailing: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          contact['create_date']!,
-                          style: const TextStyle(
-                            color: Colors.grey,
-                            fontSize: 12,
-                          ),
+                      child: Text(
+                        chat.unreadCount.toString(),
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 12,
+                          fontWeight: FontWeight.bold,
                         ),
-                      ],
+                      ),
                     ),
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => PrivateChatScreen(
-                            contactName: contact['name']!,
-                            contactAvatar: contact['avatar']??'Chat',
-                            receiverId: contact['mobile']!,
-                          ),
-                        ),
-                      );
-                    },
-                  );
-                },
+                  ),
+              ],
+            ),
+            title: Text(
+              chat.otherUserName, // chat.otherUserName,
+              style: const TextStyle(color: Colors.white),
+            ),
+            subtitle: Text(
+              chat.lastMessage, // Use the last message from the ChatData
+              style: TextStyle(
+                color: isUnread ? Colors.white : Colors.grey,
+                fontWeight:
+                isUnread ? FontWeight.bold : FontWeight.normal,
+              ),
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+            ),
+            trailing: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  chat.lastMessageTimeFormatted,
+                  //chat.lastMessageTime.toString(),  // Format the date if needed
+                  style: const TextStyle(
+                    color: Colors.grey,
+                    fontSize: 12,
+                  ),
+                ),
+              ],
+            ),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => PrivateChatScreen(
+                    contactName: chat.otherUserName,
+                    //chat.otherUserName,
+                    contactAvatar:
+                    chat.otherUserName.substring(0, 1).toUpperCase(),
+                    //chat.otherUserName.isNotEmpty ? chat.otherUserName[0].toUpperCase() : 'U',
+                    receiverId: chat.otherUserId,
+                    //chat.otherUserId,
+                    message: "",
+                  ),
+                ),
               );
-          } else {
-            return const Center(child: Text('No Data Available'));
-          }
+            },
+          );
         },
       ),
     );
+  }
+}
+
+// Data Model
+class ChatData {
+  final String chatId;
+  final String lastMessage;
+  final DateTime lastMessageTime;
+  final String lastMessageTimeFormatted;
+  final int unreadCount;
+  final String otherUserId;
+  final String otherUserName;
+
+  ChatData({
+    required this.chatId,
+    required this.lastMessage,
+    required this.lastMessageTime,
+    required this.lastMessageTimeFormatted,
+    required this.unreadCount,
+    required this.otherUserId,
+    required this.otherUserName,
+  });
+
+  static Future<ChatData> fromFirestore(DocumentSnapshot doc, String currentUserId) async {
+    final data = doc.data() as Map<String, dynamic>;
+    final chatId = doc.id;
+
+    // Extract the other user's ID
+    String otherUserId = '';
+    if (data['users'] != null && data['users'] is Map) {
+      Map<String, dynamic> users = data['users'] as Map<String, dynamic>;
+      users.forEach((userId, value) {
+        if (userId != currentUserId) {
+          otherUserId = userId;
+        }
+      });
+    }
+
+    // Fetch the other user's name from the 'users' collection
+    String otherUserName = 'Unknown';
+    if (otherUserId.isNotEmpty) {
+      final userQuerySnapshot = await FirebaseFirestore.instance
+          .collection('messages')
+          .where('sender', isEqualTo: otherUserId)
+          .get();
+
+      print('Found ${userQuerySnapshot.docs.length} messages from other user');
+
+      if (userQuerySnapshot.docs.isNotEmpty) {
+        final userData = userQuerySnapshot.docs[0].data() as Map<String, dynamic>;
+        print('Fetched user data from message: $userData');
+        otherUserName = userData['name'] ?? 'Unknown';
+      }
+    }
+
+
+    print('currentUserId $otherUserId');
+    print('otherUserName $otherUserName');
+
+    // Parse last message time
+    DateTime lastMessageTime;
+    if (data['lastMessageTime'] is Timestamp) {
+      lastMessageTime = (data['lastMessageTime'] as Timestamp).toDate();
+    } else {
+      lastMessageTime = DateTime.now();
+    }
+
+    // Calculate unread count
+    int unreadCount = await getUnreadCount(chatId, currentUserId);
+    print('Unread count: $unreadCount');
+
+    return ChatData(
+      chatId: chatId,
+      lastMessage: data['lastMessage'] ?? '',
+      lastMessageTime: lastMessageTime,
+      lastMessageTimeFormatted: lastMessageTime.toString(),
+      unreadCount: unreadCount,
+      otherUserId: otherUserId,
+      otherUserName: otherUserName,
+    );
+  }
+
+  static Future<int> getUnreadCount(String chatId, String currentUserId) async {
+    try {
+      final messagesCollection = FirebaseFirestore.instance
+          .collection('chats')
+          .doc(chatId)
+          .collection('messages');
+
+      final unreadMessagesQuery = await messagesCollection
+          .where('sender', isNotEqualTo: currentUserId)
+          .where('isRead', isEqualTo: false)
+          .get();
+
+      return unreadMessagesQuery.docs.length;
+    } catch (e) {
+      print("Error getting unread count: $e");
+      return 0; // Return 0 in case of an error
+    }
   }
 }

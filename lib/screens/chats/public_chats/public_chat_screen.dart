@@ -54,9 +54,9 @@ class _ChatScreenState extends State<PublicChatScreen> {
   }
 
   Future<void> initializeChat() async {
-    userId = await getstring(USER_NUMBER);
+    userId = await getstring('mobile');
     name = await getstring(USER_NAME);
-    print("namename $name");
+    print("namename $userId");
   }
 
   void _sendMessage() async {
@@ -168,6 +168,7 @@ class _ChatScreenState extends State<PublicChatScreen> {
                                               contactAvatar:
                                                   'Chat',
                                               receiverId: sender,
+                                                  message: '',
                                             ),
                                           ),
                                         );

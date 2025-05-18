@@ -44,7 +44,9 @@ class _OtpSigninState extends State<LoginScreen> {
           savestring(USER_NAME, jsondata[0]['name'].toString());
           savestring(USER_EMAIL, jsondata[0]['email'].toString());
           addStringToPref(
-              jsondata[0]['u_id'].toString(), data['mobile'].toString());
+              jsondata[0]['u_id'].toString(), jsondata[0]['mobile'].toString());
+
+
 
           return "success";
         } else if (jsondata[0]['message'] == "2") {
@@ -72,6 +74,8 @@ class _OtpSigninState extends State<LoginScreen> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setString('u_id', u_id);
     prefs.setString('mobile', mobile);
+    String mobileq = await getstring('mobile');
+    print("mobileq $mobile");
     // user();
   }
 
