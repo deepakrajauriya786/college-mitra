@@ -42,6 +42,13 @@ class BottomNavigationProvider with ChangeNotifier {
       color: Colors.orange.withValues(alpha: 0.3),
     ),
     PageScreen(
+      title: "Smart Education Loan",
+      desc:
+          "Get Into Your Dream College — No Hassle, No Delay, Just Smart Loans for Smart Students.",
+      uri: "assets/images/scholarship.png",
+      color: Colors.red.withValues(alpha: 0.3),
+    ),
+    PageScreen(
       title: "Find Accomodation",
       desc:
           "Find the perfect place to call Home near your campus. Browse verified listings and connect with roommates.",

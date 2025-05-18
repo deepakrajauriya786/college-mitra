@@ -207,10 +207,10 @@ class EducationLoanProvider extends ChangeNotifier {
       Fluttertoast.showToast(msg: "Select Course");
       return;
     }
-    if (course_name.text.isEmpty) {
-      Fluttertoast.showToast(msg: "Select Course Name");
-      return;
-    }
+    // if (course_name.text.isEmpty) {
+    //   Fluttertoast.showToast(msg: "Select Course Name");
+    //   return;
+    // }
     if (_selectedExam!.isEmpty) {
       Fluttertoast.showToast(msg: "Select Exam");
       return;
@@ -782,6 +782,7 @@ class EducationLoanProvider extends ChangeNotifier {
                                               color: Colors.white,
                                               fontWeight: FontWeight.w500),
                                         ),
+
                                       ],
                                     ),
                                   ),
@@ -836,30 +837,11 @@ class EducationLoanProvider extends ChangeNotifier {
                                   ),
                                 ],
                               ),
-                              Row(
-                                children: [
-                                  Expanded(
-                                    child: Row(
-                                      children: [
-                                        Radio<String>(
-                                          value: 'Score',
-                                          groupValue: provider.selectedExam,
-                                          onChanged: (value) {
-                                            provider.selectedExam = value;
-                                          },
-                                          activeColor: Colors.blue,
-                                        ),
-                                        const Text(
-                                          'Score',
-                                          style: TextStyle(
-                                              color: Colors.white,
-                                              fontWeight: FontWeight.w500),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ],
-                              ),
+                              // Row(
+                              //   children: [
+                              //
+                              //   ],
+                              // ),
 
                             ],
                           ),
@@ -867,6 +849,15 @@ class EducationLoanProvider extends ChangeNotifier {
 
                       ],
                     ),
+                    Padding(
+                        padding:
+                        EdgeInsets.symmetric(horizontal: 8.0, vertical: 4),
+                        child: CustomTextField(
+                      controller: course_name,
+                      hintText: "Other",
+                      label: "Other",
+                      input: TextInputType.text,
+                    )),
                   ],
                 ),
               ),
@@ -906,11 +897,7 @@ class EducationLoanProvider extends ChangeNotifier {
               // const SizedBox(
               //   height: 15,
               // ),
-              // CustomTextField(
-              //   controller: course_name,
-              //   hintText: "Course Name",
-              //   input: TextInputType.text,
-              // ),
+
             ],
           );
         }),
@@ -1060,18 +1047,18 @@ class EducationLoanProvider extends ChangeNotifier {
                         // ),
                         CustomTextField(
                           controller: marks,
-                          hintText: "Pre-Admission Amount",
+                          hintText: "Admission Amount",
                           input: TextInputType.number,
-                          label: 'Post-Admission Amount',
+                          label: 'Admission Amount',
                         ),
-                        const SizedBox(
-                          height: 15,
-                        ),
-                        CustomTextField(
-                          controller: course_name,
-                          hintText: "Post-Admission Amount",
-                          input: TextInputType.number,
-                        ),
+                        // const SizedBox(
+                        //   height: 15,
+                        // ),
+                        // CustomTextField(
+                        //   controller: course_name,
+                        //   hintText: "Post-Admission Amount",
+                        //   input: TextInputType.number,
+                        // ),
                       ],
                     )),
                   ],

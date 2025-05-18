@@ -1,6 +1,8 @@
 import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+
 import '../../../const/config.dart';
 import 'chat_screen.dart';
 
@@ -121,11 +123,11 @@ class DashboardChat extends StatelessWidget {
                       ],
                     ),
                     title: Text(
-                      contact['name'],
+                      contact['name']!,
                       style: const TextStyle(color: Colors.white),
                     ),
                     subtitle: Text(
-                      contact['addreass'],
+                      contact['addreass']!,
                       style: TextStyle(
                         color: isUnread ? Colors.white : Colors.grey,
                         fontWeight: isUnread ? FontWeight.bold : FontWeight.normal,
@@ -137,7 +139,7 @@ class DashboardChat extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          contact['create_date'],
+                          contact['create_date']!,
                           style: const TextStyle(
                             color: Colors.grey,
                             fontSize: 12,
@@ -150,9 +152,9 @@ class DashboardChat extends StatelessWidget {
                         context,
                         MaterialPageRoute(
                           builder: (context) => PrivateChatScreen(
-                            contactName: contact['name'],
+                            contactName: contact['name']!,
                             contactAvatar: contact['avatar']??'Chat',
-                            receiverId: contact['mobile'],
+                            receiverId: contact['mobile']!,
                           ),
                         ),
                       );
